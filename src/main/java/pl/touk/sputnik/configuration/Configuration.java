@@ -17,13 +17,13 @@ public class Configuration {
     Configuration(Properties properties) {
         this.properties = properties;
     }
-    
+
     @Nullable
     @Deprecated
     private String getProperty(@NotNull String key) {
         return getPropertyByKey(key);
     }
-    
+
     @Nullable
     private String getPropertyByKey(@NotNull String key) {
         String value = properties.getProperty(key);
@@ -45,6 +45,12 @@ public class Configuration {
     public void updateWithCliOptions(CommandLine commandLine) {
         for (Option option : commandLine.getOptions()) {
             properties.setProperty(CLI_OPTION_PREFIX + option.getArgName(), option.getValue());
+        }
+    }
+
+    public void overwriteGeneralOption(Properties props){
+        for (String key : props.stringPropertyNames()) {
+            this.properties.setProperty(key,props.getProperty(key));
         }
     }
 

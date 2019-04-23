@@ -17,7 +17,7 @@ public class CliWrapper {
     @SuppressWarnings("unchecked")
     private Options createOptions() {
         Options localOptions = new Options();
-        localOptions.addOption(buildOption(CliOption.CONF, true, true));
+        localOptions.addOption(buildOption(CliOption.CONF, true, false));
 
         localOptions.addOption(buildOption(CliOption.CHANGE_ID, true, false));
         localOptions.addOption(buildOption(CliOption.REVISION_ID, true, false));
@@ -29,6 +29,7 @@ public class CliWrapper {
         localOptions.addOption(buildOption(CliOption.FILE_REGEX, true, false));
         localOptions.addOption(buildOption(CliOption.USERNAME, true, false));
         localOptions.addOption(buildOption(CliOption.PASSWORD, true, false));
+        localOptions.addOption(buildOption(CliOption.PUBLISHABLE, true, false));
 
         return localOptions;
     }

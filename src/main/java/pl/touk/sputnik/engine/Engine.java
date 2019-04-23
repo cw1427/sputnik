@@ -1,7 +1,9 @@
 package pl.touk.sputnik.engine;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.touk.sputnik.configuration.CliOption;
 import pl.touk.sputnik.configuration.Configuration;
+import pl.touk.sputnik.configuration.GeneralOption;
 import pl.touk.sputnik.connector.ConnectorFacade;
 import pl.touk.sputnik.connector.ReviewPublisher;
 import pl.touk.sputnik.engine.visitor.AfterReviewVisitor;
@@ -43,7 +45,9 @@ public class Engine {
         for (AfterReviewVisitor afterReviewVisitor : new VisitorBuilder().buildAfterReviewVisitors(config)) {
             afterReviewVisitor.afterReview(review);
         }
-
-        reviewPublisher.publish(review);
+        if (Boolean.valueOf(config.getProperty(CliOption.PUBLISHABLE))){
+            log.info("enable publish review");
+            reviewPublisher.publish(review);
+        }
     }
 }

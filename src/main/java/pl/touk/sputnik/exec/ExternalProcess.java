@@ -18,7 +18,7 @@ public final class ExternalProcess {
         try {
             log.debug("Executing command " + Arrays.asList(args));
             return executor().command(args)
-                    .timeout(60, TimeUnit.SECONDS)
+                    .timeout(1800, TimeUnit.SECONDS)
                     .redirectError(Slf4jStream.of(getClass()).asInfo())
                     .readOutput(true).execute()
                     .outputUTF8();

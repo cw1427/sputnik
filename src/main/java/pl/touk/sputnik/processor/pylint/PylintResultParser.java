@@ -8,6 +8,7 @@ import pl.touk.sputnik.processor.tools.externalprocess.ExternalProcessResultPars
 import pl.touk.sputnik.review.Severity;
 import pl.touk.sputnik.review.Violation;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

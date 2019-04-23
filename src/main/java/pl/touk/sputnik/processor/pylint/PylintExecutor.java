@@ -24,7 +24,9 @@ class PylintExecutor {
 
     String runOnFile(String filePath) {
         log.info("Review on file: " + filePath);
-        return new ExternalProcess().executeCommand(buildParams(filePath));
+        String result =new ExternalProcess().executeCommand(buildParams(filePath));
+        log.debug("Pylint result: " + result);
+        return result;
     }
 
     @NotNull

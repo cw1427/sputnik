@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import pl.touk.sputnik.review.filter.FileFilter;
 import pl.touk.sputnik.review.transformer.FileTransformer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -69,14 +70,36 @@ public class Review {
 
     public void addError(String source, Violation violation) {
         for (ReviewFile file : files) {
-            if (file.getReviewFilename().equals(violation.getFilenameOrJavaClassName())
-                    || file.getIoFile().getAbsolutePath().equals(violation.getFilenameOrJavaClassName())
+            if (separatorsToSystem(file.getReviewFilename()).equals(violation.getFilenameOrJavaClassName())
+                    || separatorsToSystem(file.getIoFile().getAbsolutePath()).equals(violation.getFilenameOrJavaClassName())
                     || file.getJavaClassName().equals(violation.getFilenameOrJavaClassName())) {
                 addError(file, source, violation.getLine(), violation.getMessage(), violation.getSeverity());
                 return;
+            }else{
+                log.warn("Filename {} not equals to violation Filename {}",file.getReviewFilename(),violation.getFilenameOrJavaClassName());
             }
         }
         log.warn("Filename or Java class {} was not found in current review", violation.getFilenameOrJavaClassName());
+    }
+
+    public void printViolations(){
+        for (ReviewFile file : files) {
+            log.info("Total {} Violations on file {}", file.getComments().size(), file.getReviewFilename());
+            for (Comment comm : file.getComments()){
+                log.info("file: {} line: {} message: {}",file.getReviewFilename(),comm.getLine(), comm.getMessage());
+            }
+        }
+    }
+
+    private String separatorsToSystem(String res) {
+        if (res==null) return null;
+        if (File.separatorChar=='\\') {
+            // From Windows to Linux/Mac
+            return res.replace('/', File.separatorChar);
+        } else {
+            // From Linux/Mac to Windows
+            return res.replace('\\', File.separatorChar);
+        }
     }
 
     private void addError(@NotNull ReviewFile reviewFile, @NotNull String source, int line, @Nullable String message, Severity severity) {

@@ -1,5 +1,9 @@
 package pl.touk.sputnik;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
@@ -28,8 +32,19 @@ public final class Main {
             System.out.println(e.getMessage());
             System.exit(1);
         }
-
-        Configuration configuration = ConfigurationBuilder.initFromFile(commandLine.getOptionValue(CliOption.CONF.getCommandLineParam()));
+        //----update configuration load logic to load resource config first
+        Configuration configuration = ConfigurationBuilder.initFromResource("sputnik.properties");
+        //Configuration configuration = ConfigurationBuilder.initFromFile(commandLine.getOptionValue(CliOption.CONF.getCommandLineParam()));
+        String configurationFilename = commandLine.getOptionValue(CliOption.CONF.getCommandLineParam());
+        if (configurationFilename != null){
+              try (FileReader resourceReader = new FileReader(configurationFilename)){
+                  Properties properties = new Properties();
+                  properties.load(resourceReader);
+                  configuration.overwriteGeneralOption(properties);
+              } catch (IOException e) {
+                  System.out.println("Local configuration properties load failed" + e);
+              }
+        }
         configuration.updateWithCliOptions(commandLine);
 
         ConnectorFacade facade = getConnectorFacade(configuration);

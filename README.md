@@ -1,3 +1,21 @@
+## Release method
+- Jar build
+ --gradle shadowJar  //----all in one jar distribution.
+ --gradle jar   //will generate the sputnik jar in the build/lib/sputnik-1.0.0.jar
+ --gradle distZip //generate whole distribution zip file for deployment.
+
+
+ ## Changed hisgory
+  -- v1.1.0 use shadow jar plugin to build all of the dependencies into one shadow jar file.
+      customize sputnik to mysputnik v1.0.0
+      Adjust config file loading logic to support for customizing it.
+      Add publichable option to decide if push checking result to gerrit or not.
+      Add error print to the stderr output.
+      Adjust gradle file to add shadowJar make an all in one executable jar.
+  -- v1.0.0 customize sputnik tool to fit for every project's customizing config file and add publishable option for result publish.
+
+
+
 ![sputnik](http://touk.github.io/sputnik/images/logo-color-bgtransparent-small.png)
 
 > Static code review for your Gerrit and Stash patchsets. Runs Checkstyle, PMD, SpotBugs (formerly known as FindBugs), Scalastyle, CodeNarc, JSLint, JSHint, TSLint and Sonar for you!
@@ -108,7 +126,7 @@ It is convenient to add sputnik's configuration file (`myconf.properties` in the
 project's repo. This way, it will be easier to run it from CI server.
 
 ### SSL verification
-SSL trust verification and hostname verification is disabled by default. You can enable it by setting `connector.verifySsl=true` property. 
+SSL trust verification and hostname verification is disabled by default. You can enable it by setting `connector.verifySsl=true` property.
 
 ### Add Post-Build step to Jenkins/CI server
 

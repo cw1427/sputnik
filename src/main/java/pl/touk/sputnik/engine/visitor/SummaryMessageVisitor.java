@@ -18,6 +18,7 @@ public class SummaryMessageVisitor implements AfterReviewVisitor {
     public void afterReview(@NotNull Review review) {
         addSummaryMessage(review);
         addProblemMessages(review);
+        printCommentMessages(review);
     }
 
     private void addSummaryMessage(Review review) {
@@ -39,5 +40,9 @@ public class SummaryMessageVisitor implements AfterReviewVisitor {
             log.info("Adding problem message to review: {}", problemMessage);
             review.getMessages().add(problemMessage);
         }
+    }
+
+    private void printCommentMessages(@NotNull Review review){
+        review.printViolations();
     }
 }
